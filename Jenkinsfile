@@ -1,10 +1,15 @@
 pipeline {
  agent any
+ 
+ parameters{
+    string(name: 'DEPLOY_ENV',defaultValue: 'development',description: 'select the target environment')
+ }
  stages{
    stage("checkout"){
      steps {
            sh """
            echo "Checkout done - $PWD"
+	   echo "DEPLOYMENT ENV SELECTED - $DEPLOY_ENV"
            ls -l
            """
       }
