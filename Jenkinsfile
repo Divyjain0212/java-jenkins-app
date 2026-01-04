@@ -4,10 +4,11 @@ pipeline {
  environment{
      IMAGE_NAME = 'divyj0212/springrestapi'
 	 PORT_MAPPING = '8081:7000'
+	 DOCKER_CREDENTIALS = credentials("dockerhub")
  }
  parameters{
     string(name: 'DEPLOY_ENV',defaultValue: 'development',description: 'select the target environment')
- 	string(name: 'APP_VERSION', description: 'Provide tag for the docker image')
+ 	// string(name: 'APP_VERSION', description: 'Provide tag for the docker image')
  }
  stages{
    stage("checkout"){
@@ -55,6 +56,26 @@ pipeline {
 				echo "IMAGE Name is - ${IMAGE_NAME}"
 				docker build -t $IMAGE_NAME:"${env.BUILD_NUMBER}" .
 				echo "=======Building Image Completed======="
+			"""
+		}
+	}
+
+	stage("Scan the Image"){
+		 steps{
+			 sh """
+			 echo "=======Scanning Image Started========"
+			 trivy image $IMAGE_NAME:"${env.BUILD_NUMBER}"
+			 echo "========Scanning Completed============"
+			 """
+		 }
+	}
+			 
+	stage("Docker Login"){
+		steps{
+			sh """
+			echo "======Login the Docker Hub======"
+			echo "Docker Credentials:- ${DOCKER_CREDENTIALS}"
+			echo "======Login Successful======="
 			"""
 		}
 	}
