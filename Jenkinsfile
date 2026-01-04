@@ -76,7 +76,7 @@ pipeline {
 			echo "======Login the Docker Hub======"
 			echo "Docker Credentials:- ${DOCKER_CREDENTIALS}"
 			docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW
-			docker push $IMAGE_NAME:${env.BUILD.NUMBER} 
+			docker push $IMAGE_NAME:${env.BUILD_NUMBER} 
 			echo "======Login and Push Image Successful======="
 			"""
 		}
