@@ -21,6 +21,7 @@ pipeline {
            echo "Checkout done - $PWD"
 	       echo "DEPLOYMENT ENV SELECTED - $DEPLOY_ENV"
            ls -l
+		   echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} from ${env.NODE_NAME}"
            """
       }
    }
@@ -51,7 +52,8 @@ pipeline {
 		steps{
 			sh """
 				echo "=======Build the Docker image========"
-				docker build -t $IMAGE_NAME:'$APP_VERSION' .
+				echo "IMAGE Name is - ${IMAGE_NAME}"
+				docker build -t $IMAGE_NAME:"${env.BUILD_NUMBER}" .
 				echo "=======Building Image Completed======="
 			"""
 		}
