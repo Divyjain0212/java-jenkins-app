@@ -81,6 +81,12 @@ pipeline {
 			"""
 		}
 	}
+
+	stage("Cleaning Docker images"){
+		steps{
+			echo "run docker image prune -a -f command"
+		}
+	}
 } // end of stages
 
 } // end of pipeline
