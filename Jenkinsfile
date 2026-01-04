@@ -4,7 +4,7 @@ pipeline {
  environment{
      IMAGE_NAME = 'divyj0212/springrestapi'
 	 PORT_MAPPING = '8081:7000'
-	 DOCKER_CREDENTIALS = credentials("dockerhub")
+	 DOCKER_CREDENTIALS = credentials("dockerhub") //[DOCKERHUB_CREDENTIALS_USR,DOCKERHUB_CREDENTIALS_PSW]
  }
  parameters{
     string(name: 'DEPLOY_ENV',defaultValue: 'development',description: 'select the target environment')
@@ -70,13 +70,14 @@ pipeline {
 		 }
 	}
 			 
-	stage("Docker Login"){
+	stage("Docker Login and Push the image"){
 		steps{
 			sh """
 			echo "======Login the Docker Hub======"
 			echo "Docker Credentials:- ${DOCKER_CREDENTIALS}"
 			docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW
-			echo "======Login Successful======="
+			docker push $IMAGE_NAME:${env.BUILD.NUMBER} 
+			echo "======Login and Push Image Successful======="
 			"""
 		}
 	}
