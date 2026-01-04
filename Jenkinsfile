@@ -1,6 +1,7 @@
 pipeline {
  agent any
- stage("checkout"){
+ stages{
+   stage("checkout"){
      steps {
            sh """
            echo "Checkout done - $PWD"
@@ -9,15 +10,17 @@ pipeline {
       }
    }
 
- stage("Building the application"){
+ 
+   stage("Building the application"){
      steps {
-         sh """
-           echo "========Building Java Application============"
-           mvn clean package
-           echo "======Building Java Application completed====="
-         """      
+         
+        sh 'echo "========Building Java Application============"'
+        sh '/opt/apache-maven-3.9.12/bin/mvn -v'
+        sh '/opt/apache-maven-3.9.12/bin/mvn clean package -B'
+        sh 'echo "======Building Java Application completed====="'
+    
       }
-   }
+    }
 } // end of stages
 
 } // end of pipeline
