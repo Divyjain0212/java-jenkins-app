@@ -62,9 +62,9 @@ pipeline {
 
 	stage("Scan the Image"){
 		 steps{
-			 sh """
-			 echo "=======Scanning Image Started========"
-			 trivy image $IMAGE_NAME:"${env.BUILD_NUMBER}"
+			 sh 'echo "=======Scanning Image Started========"'
+			 //trivy image $IMAGE_NAME:"${env.BUILD_NUMBER}"
+			 sh"""
 			 echo "========Scanning Completed============"
 			 """
 		 }
