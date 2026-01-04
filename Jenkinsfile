@@ -6,6 +6,11 @@ pipeline {
  }
  stages{
    stage("checkout"){
+	 when {
+        expression { 
+            return params.DEPLOY_ENV == 'development'
+        }
+	 }
      steps {
            sh """
            echo "Checkout done - $PWD"
